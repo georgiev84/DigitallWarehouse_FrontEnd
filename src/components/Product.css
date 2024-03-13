@@ -1,0 +1,71 @@
+.productPage {
+    display: flex;
+}
+.product {
+    display: flex;
+    border: 0.25px solid rgb(120, 120, 120);
+    border-radius: 20px;
+    margin: 5px;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0, 116, 217, 0.5), rgba(127, 219, 255, 0.5));
+}
+
+.productListHeader {
+    display: flex;
+    justify-content: space-around;
+    font-weight: 700;
+    padding-bottom: 10px;
+    background: linear-gradient(to bottom, rgba(0, 116, 217, 0.5), rgba(127, 219, 255, 0.5));
+}
+
+.productForm {
+    flex: 1;
+    width: 50%;
+}
+.productList {
+    flex: 2;
+    width: 50%;
+    overflow-y: scroll;
+    position: relative;
+    height: calc(75vh);
+}
+
+.sizes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 75%;
+    margin-bottom: 10px;
+}
+.productFormData {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+
+.productFormData input, select, button {
+    border-radius: 5px;
+    background: linear-gradient(to bottom, rgba(0, 116, 217, 0.5), rgba(127, 219, 255, 0.5));
+}
+.product:nth-child(even) {
+    background: linear-gradient(to bottom, rgb(242 242 242 / 50%), rgba(127, 219, 255, 0.5));
+}
+
+h1 {
+    background: linear-gradient(to right, #0074D9, #7FDBFF);
+    color: white;
+    padding: 10px;
+}
+
+.column, .columnHheader {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}

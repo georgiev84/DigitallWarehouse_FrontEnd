@@ -1,0 +1,12 @@
+import { IProduct } from './IProduct'
+
+interface IProductApiResponse {
+    filter: {
+        minPrice: number;
+        maxPrice: number;
+        allSizes: string[];
+        commonWords: string[];
+        
+    };
+    products: IProduct[];
+}
