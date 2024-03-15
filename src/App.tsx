@@ -8,12 +8,13 @@ import { NavigationProvider } from './context/NavigationContext';
 
 function App() {
   return (
-    <NavigationProvider>
+    <>
+      <div>APP</div>
         <Header />
         <div className="content">
           Home Page
         </div>
-    </NavigationProvider>
+    </>
   );
 }
 

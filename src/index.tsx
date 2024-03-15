@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductList from './components/ProductList';
 import About from './pages/About';
+import { NavigationProvider } from './context/NavigationContext';
 
 const router = createBrowserRouter([
   {
@@ -24,4 +25,4 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(<RouterProvider router={router} />);
+root.render(<NavigationProvider><RouterProvider router={router} /></NavigationProvider>);

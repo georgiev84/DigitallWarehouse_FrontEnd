@@ -6,6 +6,10 @@ export interface IProduct {
     description: string;
     price: number;
     brand: string;
-    groups: string[];
+    brandId: string;
+    groups: {
+        name:string,
+        id:string,
+    }[];
     sizes: Size[];
 }

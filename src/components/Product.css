@@ -1,6 +1,7 @@
 .productPage {
     display: flex;
 }
+
 .product {
     display: flex;
     border: 0.25px solid rgb(120, 120, 120);
@@ -22,6 +23,7 @@
     flex: 1;
     width: 50%;
 }
+
 .productList {
     flex: 2;
     width: 50%;
@@ -37,6 +39,7 @@
     width: 75%;
     margin-bottom: 10px;
 }
+
 .productFormData {
     display: flex;
     flex-direction: column;
@@ -44,10 +47,13 @@
 }
 
 
-.productFormData input, select, button {
+.productFormData input,
+select,
+button {
     border-radius: 5px;
     background: linear-gradient(to bottom, rgba(0, 116, 217, 0.5), rgba(127, 219, 255, 0.5));
 }
+
 .product:nth-child(even) {
     background: linear-gradient(to bottom, rgb(242 242 242 / 50%), rgba(127, 219, 255, 0.5));
 }
@@ -58,7 +64,8 @@ h1 {
     padding: 10px;
 }
 
-.column, .columnHheader {
+.column,
+.columnHheader {
     flex: 1;
     padding: 10px;
     text-align: left;
@@ -68,4 +75,12 @@ h1 {
 ul {
     list-style-type: none;
     padding: 0;
+}
+
+.deleteButton {
+    margin: 5px;
+}
+
+.deleteButton:hover {
+    cursor: pointer;
 }

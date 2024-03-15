@@ -1,0 +1,14 @@
+.popup-container {
+    position: absolute;
+    background-color: #f70101;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 7%;
+    z-index: 10;
+    top: 50%;
+    border-radius: 7px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

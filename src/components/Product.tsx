@@ -1,25 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IProduct } from "../interfaces/IProduct";
+import { FaTimes, FaEdit } from 'react-icons/fa';
+import NavigationContext from "../context/NavigationContext";
 
 interface Props {
     product: IProduct;
 }
 
 const Product = ({ product }: Props) => {
+    const { handleDeleteClick, handleUpdate, editProduct } = useContext(NavigationContext)
+    // console.log(product)
     return (
         <div className="product">
             <div className="column">{product.title}</div>
             <div className="column">{product.description}</div>
             <div className="column">Price: ${product.price.toFixed(2)}</div>
             <div className="column">Brand: {product.brand}</div>
-            <div className="column">Groups: {product.groups.join(', ')}</div>
-            <div className="column">
-                {product.sizes.map((size, index) => (
+            <div className="column">Groups:
+                {product.groups.map((group, index) => (
                     <div className="sizeRow" key={index}>
-                        {size.name}: {size.quantityInStock} in stock
+                        {group.name}
                     </div>
                 ))}
             </div>
+            <div className="column">
+                {product.sizes.map((size, index) => (
+                    <div className="sizeRow" key={index}>
+                        {size.name}: {size.quantity} in stock
+                    </div>
+                ))}
+            </div>
+
+            <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
+            <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
+
         </div>
     );
 };

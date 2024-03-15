@@ -1,4 +1,5 @@
 export interface Size {
     name: string;
-    quantityInStock: number;
+    quantity: number;
+    id: string;
 }
