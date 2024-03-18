@@ -14,9 +14,9 @@ const Product = ({ product }: Props) => {
         <div className="product">
             <div className="column">{product.title}</div>
             <div className="column">{product.description}</div>
-            <div className="column">Price: ${product.price.toFixed(2)}</div>
-            <div className="column">Brand: {product.brand}</div>
-            <div className="column">Groups:
+            <div className="column">${product.price.toFixed(2)}</div>
+            <div className="column">{product.brand}</div>
+            <div className="column">
                 {product.groups.map((group, index) => (
                     <div className="sizeRow" key={index}>
                         {group.name}
@@ -26,7 +26,7 @@ const Product = ({ product }: Props) => {
             <div className="column">
                 {product.sizes.map((size, index) => (
                     <div className="sizeRow" key={index}>
-                        {size.name}: {size.quantity} in stock
+                        {size.name}: {size.quantity}
                     </div>
                 ))}
             </div>

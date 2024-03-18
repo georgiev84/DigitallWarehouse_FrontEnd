@@ -4,7 +4,7 @@ import { IProduct } from '../interfaces/IProduct';
 import './Product.css';
 import Layout from '../layouts/Layout';
 import ProductForm from './ProductForm';
-import NavigationContext, { NavigationProvider } from '../context/NavigationContext';
+import NavigationContext from '../context/NavigationContext';
 import ErrorPopup from '../popups/ErrorPopup';
 import Spinner from '../shared/Spinner';
 

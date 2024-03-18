@@ -92,6 +92,7 @@ function ProductForm({ }: ProductFormProps) {
             }));
         }
     };
+
     const handleBrandSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedBrand = event.target.value;
         console.log('handleBrandSelect')
@@ -99,7 +100,6 @@ function ProductForm({ }: ProductFormProps) {
             ...prevState,
             brandId: selectedBrand
         }));
-
     };
 
     const handleAddProduct = (event: React.FormEvent<HTMLFormElement>) => {
@@ -155,11 +155,11 @@ function ProductForm({ }: ProductFormProps) {
             <label htmlFor="brandId">Brand:</label>
             <select name="brandId" onChange={handleBrandSelect} value={formData.brandId}>
                 <option value="">Select a brand</option>
-                <option value="11111111-1111-1111-1111-111111111111" selected={productEdit.edit && formData.brandId === '11111111-1111-1111-1111-111111111111'}>Adidas</option>
-                <option value="22222222-2222-2222-2222-222222222222" selected={productEdit.edit && formData.brandId === '22222222-2222-2222-2222-222222222222'}>Nike</option>
+                <option value="11111111-1111-1111-1111-111111111111">Adidas</option>
+                <option value="22222222-2222-2222-2222-222222222222" >Nike</option>
             </select>
 
-            <h3>Groups:</h3>
+            <label>Groups:</label>
             {[
                 { id: '88888888-8888-8888-8888-888888888888', name: 'Male' },
                 { id: '99999999-9999-9999-9999-999999999999', name: 'Female' }
@@ -177,7 +177,7 @@ function ProductForm({ }: ProductFormProps) {
                 </div>
             ))}
 
-            <h3>Sizes:</h3>
+            <label>Sizes:</label>
             {formData.sizes.map((size, index) => (
                 <div key={index} className='sizes'>
                     <label htmlFor={`quantity${index}`}>{size.name}:</label>
