@@ -52,33 +52,40 @@ function ProductForm({ }: ProductFormProps) {
         }));
     };
 
-    const handleGroupSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleGroupSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedGroupId = event.target.value;
-        console.log('Selected Group ID:', selectedGroupId);
-    
+        const isChecked = event.target.checked;
+
+        // Check if the selected group already exists in the formData.groups array
         const groupExistsIndex = formData.groups.findIndex(group => group.id === selectedGroupId);
-        if (groupExistsIndex !== -1) {
-            const updatedGroups = formData.groups.filter((group, index) => index !== groupExistsIndex);
-            setFormData(prevState => ({ ...prevState, groups: updatedGroups }));
+
+        if (isChecked) {
+            // If the group is not already selected, add it to the formData.groups array
+            if (groupExistsIndex === -1) {
+                const selectedGroup = {
+                    id: selectedGroupId,
+                    name: event.target.name // Retrieve the group name from the checkbox name
+                };
+                setFormData(prevState => ({
+                    ...prevState,
+                    groups: [...prevState.groups, selectedGroup]
+                }));
+            }
         } else {
-            setFormData(prevState => ({
-                ...prevState,
-                groups: [
-                    ...prevState.groups,
-                    {
-                        id: selectedGroupId,
-                        name: 'New Group',
-                    }
-                ]
-            }));
+            // If the group is already selected, remove it from the formData.groups array
+            if (groupExistsIndex !== -1) {
+                const updatedGroups = formData.groups.filter(group => group.id !== selectedGroupId);
+                setFormData(prevState => ({
+                    ...prevState,
+                    groups: updatedGroups
+                }));
+            }
         }
     };
-    
-    
 
     const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const newQuantity = parseInt(event.target.value);
-        if (!isNaN(newQuantity)) { // Ensure it's a valid number
+        if (!isNaN(newQuantity)) {
             setFormData((prevState) => ({
                 ...prevState,
                 sizes: prevState.sizes.map((size, i) => (i === index ? { ...size, quantity: newQuantity } : size))
@@ -153,10 +160,22 @@ function ProductForm({ }: ProductFormProps) {
             </select>
 
             <h3>Groups:</h3>
-            <select multiple name="groupIds" onChange={handleGroupSelect} value={formData.groups.map(group => group.id)} >
-                <option value="88888888-8888-8888-8888-888888888888">Male</option>
-                <option value="99999999-9999-9999-9999-999999999999">Female</option>
-            </select>
+            {[
+                { id: '88888888-8888-8888-8888-888888888888', name: 'Male' },
+                { id: '99999999-9999-9999-9999-999999999999', name: 'Female' }
+            ].map(group => (
+                <div key={group.id}>
+                    <input
+                        type="checkbox"
+                        id={`group-${group.id}`}
+                        name={group.name}
+                        value={group.id}
+                        checked={formData.groups.some(g => g.id === group.id)} // Check if the group is selected
+                        onChange={handleGroupSelect}
+                    />
+                    <label htmlFor={`group-${group.id}`}>{group.name}</label>
+                </div>
+            ))}
 
             <h3>Sizes:</h3>
             {formData.sizes.map((size, index) => (
@@ -165,8 +184,6 @@ function ProductForm({ }: ProductFormProps) {
                     <input type="number" name={`quantity${index}`} value={size.quantity} onChange={(event) => handleQuantityChange(event, index)} />
                 </div>
             ))}
-
-
 
             <button type="submit">Submit</button>
         </form>

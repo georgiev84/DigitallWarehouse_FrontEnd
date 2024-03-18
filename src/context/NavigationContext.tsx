@@ -1,8 +1,7 @@
 import React, { createContext, useState } from 'react';
-import { IProductFormData, ISubmitProductFormData } from '../interfaces/IProductFormData';
+import { ISubmitProductFormData } from '../interfaces/IProductFormData';
 import { IProduct } from '../interfaces/IProduct';
 import { IProductEdit } from '../interfaces/IProductEdit';
-import { Size } from '../interfaces/Size';
 
 type NavigationContextType = {
   handleDeleteClick: (value: string) => void;
@@ -19,7 +18,6 @@ const initialProductEditState: IProductEdit = {
   item: {} as IProduct,
   edit: false,
 };
-
 
 const NavigationContext = createContext<NavigationContextType>({
   handleDeleteClick: () => { },
@@ -52,25 +50,21 @@ export const NavigationProvider = ({ children }: any) => {
         if (!response.ok) {
           throw new Error('Failed to delete product');
         }
-
         setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
-
       } catch (error) {
         console.error('Error deleting product:', error);
       }
     }
-    console.log('test ' + id)
   }
 
   const handleSubmit = async (formData: ISubmitProductFormData) => {
-    console.log('handle submit')
     console.log(formData)
     if (!formData.title || !formData.price || !formData.description || !formData.groupIds || !formData.sizes || !formData.brandId) {
       setShowPopup(true);
       return;
     }
-    
-    const response = await fetch('https://localhost:7054/api/products/', {
+
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'content-type': 'application/json;charset=UTF-8',
@@ -103,15 +97,15 @@ export const NavigationProvider = ({ children }: any) => {
   const editProduct = async (product: IProduct) => {
     console.log(product)
     setProductEdit({
-      item:product,
+      item: product,
       edit: true
     })
   }
 
   const handleUpdate = async (id: string, updItem: ISubmitProductFormData) => {
     console.log(updItem)
-    console.log(url+`/${id}`);
-    const response = await fetch(url+`/${id}`, {
+    console.log(url + `/${id}`);
+    const response = await fetch(url + `/${id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',

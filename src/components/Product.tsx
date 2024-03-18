@@ -8,8 +8,8 @@ interface Props {
 }
 
 const Product = ({ product }: Props) => {
-    const { handleDeleteClick, handleUpdate, editProduct } = useContext(NavigationContext)
-    // console.log(product)
+    const { handleDeleteClick, editProduct } = useContext(NavigationContext)
+
     return (
         <div className="product">
             <div className="column">{product.title}</div>
@@ -30,9 +30,10 @@ const Product = ({ product }: Props) => {
                     </div>
                 ))}
             </div>
-
-            <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
-            <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
+            <div>
+                <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
+                <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
+            </div>
 
         </div>
     );

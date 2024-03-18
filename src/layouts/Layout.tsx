@@ -2,13 +2,14 @@ import React from 'react'
 import Header from '../shared/Header'
 
 type Props = {
-    children: any
+  children: any
 }
 
-function Layout({children}: Props) {
+function Layout({ children }: Props) {
   return (
     <>
-      <main>{children}</main>
+      <Header />
+      <div>{children}</div>
     </>
   )
 }
