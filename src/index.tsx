@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductList from './components/ProductList';
 import About from './pages/About';
 import { NavigationProvider } from './context/NavigationContext';
+import NotFound from './shared/NotFound';
+import Login from './components/Login';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path:'/about',
     element: <About />
+  },
+  {
+    path:'/login',
+    element: <Login />
+  },
+  {
+    path:'/*',
+    element: <NotFound />
   }
 ])
 const root = ReactDOM.createRoot(

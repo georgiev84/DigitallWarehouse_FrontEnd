@@ -5,14 +5,15 @@ import './Product.css';
 import Layout from '../layouts/Layout';
 import ProductForm from './ProductForm';
 import NavigationContext from '../context/NavigationContext';
-import ErrorPopup from '../popups/ErrorPopup';
 import Spinner from '../shared/Spinner';
 
 type Props = {}
 
 function ProductList({ }: Props) {
-  const { products, fetchProducts, showPopup, setShowPopup } = useContext(NavigationContext)
+  const { products, fetchProducts, showPopup, editProduct, setShowPopup } = useContext(NavigationContext)
   const [loading, setIsLoading] = useState(false)
+  const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,14 +29,19 @@ function ProductList({ }: Props) {
     fetchData();
   }, []);
 
-
+  console.log(editingProduct)
   return (
     <>
       <Layout>
-        {showPopup && <ErrorPopup message={'Please fill all fields!'} />}
         <div className='productPage'>
+          <button type="submit" onClick={() => setShowPopup(true)}>Add Product</button>
+          <input type="text" className='search' placeholder="Search by product..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
           <div className='productForm'>
-            <ProductForm />
+            {showPopup && (
+              <>
+                <ProductForm />
+              </>
+            )}
           </div>
           <div className="productList">
             <div className="productListHeader">
@@ -47,19 +53,19 @@ function ProductList({ }: Props) {
               <div className="columnHeader">Sizes</div>
               <div className="columnHeader"></div>
             </div>
-            <div>
-              {loading ? (
-                <div className='spinner'>
-                  <Spinner />
-                </div>
-              ) : (
-                <div>
-                  {products.length && products.map((product: IProduct, index: React.Key | null | undefined) => (
-                    <Product key={index} product={product} />
-                  ))}
-                </div>
-              )}
-            </div>
+
+            {loading ? (
+              <div className='spinner'>
+                <Spinner />
+              </div>
+            ) : (
+              <div>
+                {products.length && products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase())).map((product: IProduct, index: React.Key | null | undefined) => (
+                  <Product key={index} product={product} />
+                ))}
+              </div>
+            )}
+
           </div>
         </div>
       </Layout>

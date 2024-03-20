@@ -1,3 +1,6 @@
+html {
+  background-color: #041333;
+}
 .App {
   text-align: center;
 }
@@ -5,6 +8,19 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.about {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: wheat;
+  padding: 20px;
+  width: 100%;
+  height: 50%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -28,10 +44,44 @@
   color: #61dafb;
 }
 
+.main {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: wheat;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

@@ -5,7 +5,7 @@ type Props = {}
 
 function Spinner({ }: Props) {
     return (
-        <img src={spinnerImage} alt="Loading..." />
+        <img src={spinnerImage} alt="Loading..." className='spinnerImage'/>
     )
 }
 

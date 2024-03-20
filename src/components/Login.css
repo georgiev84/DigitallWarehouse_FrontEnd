@@ -1,0 +1,20 @@
+.loginInput {
+
+}
+
+.loginForm {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    width: 30%;
+}
+
+.loginField {
+    display: flex;
+    flex-direction: column;
+}
+
+button { 
+    margin-left: 0px;
+}

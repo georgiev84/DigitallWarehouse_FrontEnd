@@ -34,7 +34,6 @@ const Product = ({ product }: Props) => {
                 <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
                 <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
             </div>
-
         </div>
     );
 };

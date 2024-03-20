@@ -1,0 +1,34 @@
+.footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: rgba(22, 34, 57, 0.95);
+    color: white;
+    text-align: center;
+    transition: height 0.5s ease; 
+    height: 30px; 
+    overflow: hidden; 
+}
+
+.expanded {
+    height: 200px;
+}
+ 
+.footerItems {
+    display: flex;
+    justify-content: space-around;
+}
+
+.footerLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.footerLink {
+    color: wheat;
+    text-decoration: none;
+}
+
+.socialMedia {
+    margin-right: 20px;
+}

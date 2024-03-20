@@ -9,13 +9,12 @@ function Header({ }: Props) {
 
     return (
         <>
-            <header>
-                <h1>Digitall Warehouse</h1>
-            </header>
             <div className='navigation'>
-                <NavLink to="/" className={({isActive})=>isActive? "link active" :"link"}>Home</NavLink>
-                <NavLink to="/products"  className={({isActive})=>isActive? "link active" :"link"}>Products</NavLink>
-                <NavLink to="/about"  className={({isActive})=>isActive? "link active" :"link"}>About</NavLink>
+                <h1>Digitall Warehouse</h1>
+                <NavLink to="/" className={({ isActive }) => isActive ? "link active" : "link"}>Home</NavLink>
+                <NavLink to="/products" className={({ isActive }) => isActive ? "link active" : "link"}>Products</NavLink>
+                <NavLink to="/about" className={({ isActive }) => isActive ? "link active" : "link"}>About</NavLink>
+                <NavLink to="/login" className={({ isActive }) => isActive ? "link active login" : "link login"}>Login</NavLink>
             </div>
         </>
     )

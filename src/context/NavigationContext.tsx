@@ -13,6 +13,10 @@ type NavigationContextType = {
   handleUpdate: (id: string, updItem: ISubmitProductFormData) => Promise<void>;
   editProduct: (item: IProduct) => Promise<void>;
   productEdit: IProductEdit;
+   setProductEdit: React.Dispatch<React.SetStateAction<{
+    item: IProduct;
+    edit: boolean;
+  }>>;
 };
 const initialProductEditState: IProductEdit = {
   item: {} as IProduct,
@@ -29,6 +33,7 @@ const NavigationContext = createContext<NavigationContextType>({
   handleUpdate: async () => { },
   editProduct: async () => { },
   productEdit: initialProductEditState,
+  setProductEdit: async () => { }
 });
 
 export const NavigationProvider = ({ children }: any) => {
@@ -43,7 +48,7 @@ export const NavigationProvider = ({ children }: any) => {
   const handleDeleteClick = async (id: string) => {
     if (window.confirm('Are you sure you want to delete product?')) {
       try {
-        const response = await fetch(`https://localhost:7054/api/products/${id}`, {
+        const response = await fetch(`${url}/${id}`, {
           method: 'DELETE'
         });
 
@@ -59,10 +64,6 @@ export const NavigationProvider = ({ children }: any) => {
 
   const handleSubmit = async (formData: ISubmitProductFormData) => {
     console.log(formData)
-    if (!formData.title || !formData.price || !formData.description || !formData.groupIds || !formData.sizes || !formData.brandId) {
-      setShowPopup(true);
-      return;
-    }
 
     const response = await fetch(url, {
       method: 'POST',
@@ -78,6 +79,7 @@ export const NavigationProvider = ({ children }: any) => {
 
     const data = await response.json();
     setProducts([data, ...products]);
+
   };
 
   const fetchProducts = async () => {
@@ -100,6 +102,7 @@ export const NavigationProvider = ({ children }: any) => {
       item: product,
       edit: true
     })
+    setShowPopup(true)
   }
 
   const handleUpdate = async (id: string, updItem: ISubmitProductFormData) => {
@@ -120,6 +123,7 @@ export const NavigationProvider = ({ children }: any) => {
     setProducts(
       products.map((item) => (item.id === id ? { ...item, ...data } : item))
     )
+      
   }
 
   return (
@@ -133,6 +137,7 @@ export const NavigationProvider = ({ children }: any) => {
       handleUpdate,
       editProduct,
       productEdit,
+      setProductEdit
     }}>
       {children}
     </NavigationContext.Provider>
