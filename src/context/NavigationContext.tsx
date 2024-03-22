@@ -102,10 +102,12 @@ export const NavigationProvider = ({ children }: any) => {
       const response = await axiosUtils.get(url);
   
       if (!response.data) {
+        setProducts([]);
         throw new Error('Failed to fetch products');
       }
       setProducts(response.data.products);
     } catch (error) {
+      setProducts([]);
       console.error('Error fetching products:', error);
     }
   };
