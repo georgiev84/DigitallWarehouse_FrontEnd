@@ -23,11 +23,11 @@ function ProductForm({ }: ProductFormProps) {
         ]
     });
 
-    const { handleSubmit, productEdit, handleUpdate, setShowPopup, setProductEdit } = useContext(NavigationContext);
+    const { handleSubmit, productEdit, handleUpdate, setShowPopup, setProductEdit, setProducts, products } = useContext(NavigationContext);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
-        console.log("Product Edit changed:", productEdit); // Verify if useEffect is being called
+        console.log("Product Edit changed:", productEdit);
         if (productEdit.edit === true) {
             console.log('Groups:', productEdit.item.groups);
             setFormData({
@@ -107,7 +107,7 @@ function ProductForm({ }: ProductFormProps) {
         }));
     };
 
-    const handleAddProduct = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleAddProduct = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formData)
         const checkErrors = validateForm(formData);
@@ -116,7 +116,6 @@ function ProductForm({ }: ProductFormProps) {
         if (Object.keys(checkErrors).length > 0) {
             setErrors(checkErrors)
         } else {
-
 
             const sendData: ISubmitProductFormData = {
                 title: formData.title,
@@ -128,15 +127,16 @@ function ProductForm({ }: ProductFormProps) {
             };
 
             if (productEdit.edit === true) {
-                handleUpdate(productEdit.item.id, { ...productEdit.item, ...sendData });
+                const data = handleUpdate(productEdit.item.id, { ...productEdit.item, ...sendData });
+                console.log(data)
                 setProductEdit({ ...productEdit, edit: false });
+                setProducts(products.map((item) => (item.id === productEdit.item.id ? { ...item, ...data } : item)));
             } else {
                 handleSubmit({
                     ...sendData,
                     brandId: formData.brandId.toLowerCase().trim(),
                     groupIds: formData.groups.map(group => group.id.toLowerCase().trim())
                 });
-
             }
 
             resetFormData()
@@ -193,7 +193,7 @@ function ProductForm({ }: ProductFormProps) {
 
     return (
         <>
-            <FaTimes className='closeButton' color='black' onClick={() => {setShowPopup(false); resetFormData();}} />
+            <FaTimes className='closeButton' color='black' onClick={() => { setShowPopup(false); resetFormData(); }} />
             <form onSubmit={handleAddProduct} className='productFormData'>
                 <label htmlFor="title">Title:</label>
                 <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} />

@@ -10,17 +10,20 @@ import Spinner from '../shared/Spinner';
 type Props = {}
 
 function ProductList({ }: Props) {
-  const { products, fetchProducts, showPopup, editProduct, setShowPopup } = useContext(NavigationContext)
+  const { fetchProducts, showPopup, editProduct, setShowPopup, handleDeleteClick, products } = useContext(NavigationContext)
   const [loading, setIsLoading] = useState(false)
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         await fetchProducts();
+
       } catch (error) {
+
         console.error("Error fetching products:", error);
       }
       setIsLoading(false);
@@ -29,7 +32,7 @@ function ProductList({ }: Props) {
     fetchData();
   }, []);
 
-  console.log(editingProduct)
+
   return (
     <>
       <Layout>

@@ -1,7 +1,8 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { ISubmitProductFormData } from '../interfaces/IProductFormData';
 import { IProduct } from '../interfaces/IProduct';
 import { IProductEdit } from '../interfaces/IProductEdit';
+import axiosUtils from '../interceptors/axiosUtils';
 
 type NavigationContextType = {
   handleDeleteClick: (value: string) => void;
@@ -13,10 +14,11 @@ type NavigationContextType = {
   handleUpdate: (id: string, updItem: ISubmitProductFormData) => Promise<void>;
   editProduct: (item: IProduct) => Promise<void>;
   productEdit: IProductEdit;
-   setProductEdit: React.Dispatch<React.SetStateAction<{
+  setProductEdit: React.Dispatch<React.SetStateAction<{
     item: IProduct;
     edit: boolean;
   }>>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
 };
 const initialProductEditState: IProductEdit = {
   item: {} as IProduct,
@@ -33,7 +35,8 @@ const NavigationContext = createContext<NavigationContextType>({
   handleUpdate: async () => { },
   editProduct: async () => { },
   productEdit: initialProductEditState,
-  setProductEdit: async () => { }
+  setProductEdit: async () => { },
+  setProducts: async () => {}
 });
 
 export const NavigationProvider = ({ children }: any) => {
@@ -44,6 +47,19 @@ export const NavigationProvider = ({ children }: any) => {
     item: {} as IProduct,
     edit: false
   });
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+  const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken"));
+  const [expiresAt, setExpiresAt] = useState(localStorage.getItem("expireRefreshToken"))
+
+  useEffect(() => {
+    if (accessToken && refreshToken) {
+      const now = new Date();
+      //setExpiresAt(now.getTime());
+    }
+  }, [accessToken, refreshToken]);
+
+
+
 
   const handleDeleteClick = async (id: string) => {
     if (window.confirm('Are you sure you want to delete product?')) {
@@ -62,35 +78,33 @@ export const NavigationProvider = ({ children }: any) => {
     }
   }
 
+
   const handleSubmit = async (formData: ISubmitProductFormData) => {
-    console.log(formData)
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to submit form data');
+    try {
+      const response = await axiosUtils.post(url, formData, {
+        headers: {
+          'content-type': 'application/json;charset=UTF-8',
+        },
+      });
+  
+      if (!response.data) {
+        throw new Error('Failed to submit form data');
+      }
+  
+      setProducts([response.data, ...products]);
+    } catch (error) {
+      console.error('Error submitting form data:', error);
     }
-
-    const data = await response.json();
-    setProducts([data, ...products]);
-
   };
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
+      const response = await axiosUtils.get(url);
+  
+      if (!response.data) {
         throw new Error('Failed to fetch products');
       }
-      const data = await response.json();
-
-      setProducts(data.products);
+      setProducts(response.data.products);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -106,25 +120,22 @@ export const NavigationProvider = ({ children }: any) => {
   }
 
   const handleUpdate = async (id: string, updItem: ISubmitProductFormData) => {
-    console.log(updItem)
-    console.log(url + `/${id}`);
-    const response = await fetch(url + `/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(updItem)
-    })
-
-    const data = await response.json();
-    console.log('response:')
-    console.log(data);
-
-    setProducts(
-      products.map((item) => (item.id === id ? { ...item, ...data } : item))
-    )
-      
-  }
+    try {
+      const response = await axiosUtils.put(`${url}/${id}`, updItem, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+  
+      const data = response.data;
+  
+      setProducts(
+        products.map((item) => (item.id === id ? { ...item, ...data } : item))
+      );
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
+  };
 
   return (
     <NavigationContext.Provider value={{
@@ -137,7 +148,8 @@ export const NavigationProvider = ({ children }: any) => {
       handleUpdate,
       editProduct,
       productEdit,
-      setProductEdit
+      setProductEdit,
+      setProducts
     }}>
       {children}
     </NavigationContext.Provider>

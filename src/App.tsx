@@ -11,7 +11,6 @@ function App() {
       <Layout>
         <div className="main">
           <div className="overlay"></div>
-          {/* <video src={videoBg} autoPlay loop muted /> */}
           <video playsInline  autoPlay loop muted id="myVideo">
             <source src={videoBg} type="video/mp4" />
             Your browser does not support HTML5 video.

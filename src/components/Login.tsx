@@ -2,26 +2,68 @@ import React, { useState } from 'react'
 import Layout from '../layouts/Layout'
 import videoBg from '../assets/video.mp4';
 import './Login.css'
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 type Props = {}
 
 function Login({ }: Props) {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [navigate, setNavigate] = useState(false);
+    const url = 'https://localhost:7054/api/Authentication/login';
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
+        setEmail(event.target.value);
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
 
-    const handleLogin = () => {
-        // Implement login logic here
-        console.log('Username:', username);
-        console.log('Password:', password);
-    };
+    const handleLogin = async (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(url, { email, password });
+            console.log("Response:", response.data);
+        
+            if (response.status === 200) {
+                console.log(response)
+               
+                localStorage.setItem('accessToken', response.data.token);
+                localStorage.setItem('refreshToken',response.data.refreshToken)
+
+                const decodedJwt = parseJwt(response.data.token);
+
+                const now = new Date();
+                const expiresInSeconds = Math.floor((decodedJwt.exp * 1000) - now.getTime()) / 1000;
+                console.log(expiresInSeconds)
+
+                localStorage.setItem('expireRefreshToken',response.data.refreshToken)
+
+
+                setNavigate(true);
+            } else {
+              console.error("Error Response:", response.status, response.statusText);
+            }
+          } catch (error) {
+
+            console.error("Network Error:", error);
+          }
+    }
+
+    if(navigate){
+        return <Navigate to='/products' />
+    }
+
+    const parseJwt = (token:string) => {
+        try {
+          return JSON.parse(atob(token.split(".")[1]));
+        } catch (e) {
+          return null;
+        }
+      };
+
     return (
         <Layout>
             <div className="main">
@@ -32,8 +74,8 @@ function Login({ }: Props) {
                     <form className='loginForm' onSubmit={handleLogin}>
                         <div className='logininput'>
                             <div className='loginField'>
-                                <label htmlFor="username">Username:</label>
-                                <input type="text" id="username" value={username} onChange={handleUsernameChange} />
+                                <label htmlFor="email">Email:</label>
+                                <input type="text" id="email" value={email} onChange={handleUsernameChange} />
                             </div>
                             <div className='loginField'>
                                 <label htmlFor="password">Password:</label>
