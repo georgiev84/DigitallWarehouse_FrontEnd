@@ -223,7 +223,7 @@ function ProductForm({ }: ProductFormProps) {
                             id={`group-${group.id}`}
                             name={group.name}
                             value={group.id}
-                            checked={formData.groups.some(g => g.id === group.id)} // Check if the group is selected
+                            checked={formData.groups.some(g => g.id === group.id)}
                             onChange={handleGroupSelect}
                         />
                         <label htmlFor={`group-${group.id}`}>{group.name}</label>

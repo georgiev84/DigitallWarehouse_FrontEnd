@@ -34,7 +34,10 @@ function Header({ }: Props) {
                 <NavLink to="/about" className={({ isActive }) => isActive ? "link active" : "link"}>About</NavLink>
                 {
                     isLoggedIn === false ?
-                        <NavLink to="/login" className={({ isActive }) => isActive ? "link active login" : "link login"}>Login</NavLink>
+                        <div className='logoutSection'>
+                            <NavLink to="/login" className={({ isActive }) => isActive ? "link active login" : "link login"}>Login</NavLink>
+                            <div className="currentUser">You are not logged in</div>
+                        </div>
                         :
                         <div className='logoutSection'>
                             <div className="logout" onClick={handleLogout}>Logout</div>

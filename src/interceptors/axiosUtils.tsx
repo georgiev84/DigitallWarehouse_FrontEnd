@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://localhost:7054', // Optional: Set the base URL for all requests
+    baseURL: 'https://localhost:7054', 
 });
 const refreshUrl = 'https://localhost:7054/api/Authentication/refresh';
 instance.interceptors.request.use(config => {
@@ -13,7 +13,6 @@ instance.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${accessToken}`;
     } else if (refreshToken) {
         // Send refresh token and expired token to refresh endpoint to get new access token
-        console.log('call refresh api - ' + refreshToken)
         const body = {
             token: accessToken,
             refreshToken: refreshToken,
@@ -47,29 +46,8 @@ const parseJwt = (token: string) => {
 };
 
 function isExpired(expirationTime: number): boolean {
-    // Get the current time in seconds
     const currentTimeSeconds = Math.floor(Date.now() / 1000);
-
-    console.log(expirationTime <= currentTimeSeconds)
-    // Compare the expiration time with the current time
     return expirationTime <= currentTimeSeconds;
 }
 
 export default instance;
-
-// import axios from 'axios';
-
-// const instance = axios.create({
-//     baseURL: 'https://localhost:7054', // Optional: Set the base URL for all requests
-// });
-
-// instance.interceptors.request.use(config => {
-//     console.log("axios " + config)
-
-//     config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-//     return config;
-// }, error => {
-//     return Promise.reject(error);
-// });
-
-// export default instance;

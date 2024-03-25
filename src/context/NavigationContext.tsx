@@ -55,46 +55,18 @@ export const NavigationProvider = ({ children }: any) => {
     item: {} as IProduct,
     edit: false
   });
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
-  const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken"));
-  const [expiresAt, setExpiresAt] = useState(localStorage.getItem("expireAccessToken"))
   const [loggedUser, setLoggedUser] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  // useEffect(() => {
-  //   if (accessToken && refreshToken) {
-  //     const now = new Date();
-  //     //setExpiresAt(now.getTime());
-  //   }
-  // }, [accessToken, refreshToken]);
-
-  // const handleDeleteClick = async (id: string) => {
-  //   if (window.confirm('Are you sure you want to delete product?')) {
-  //     try {
-  //       const response = await fetch(`${url}/${id}`, {
-  //         method: 'DELETE'
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to delete product');
-  //       }
-  //       setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
-  //     } catch (error) {
-  //       console.error('Error deleting product:', error);
-  //     }
-  //   }
-  // }
   const handleDeleteClick = async (id: string) => {
     if (window.confirm('Are you sure you want to delete product?')) {
       try {
-        // Make the DELETE request using axiosUtils
         const response = await axiosUtils.delete(`${url}/${id}`);
   
         if (!response) {
           throw new Error('Failed to delete product');
         }
   
-        // Assuming setProducts is a state updater function
         setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
       } catch (error) {
         console.error('Error deleting product:', error);
