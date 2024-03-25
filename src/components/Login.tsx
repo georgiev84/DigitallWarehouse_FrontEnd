@@ -13,7 +13,8 @@ function Login({ }: Props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
-    const url = 'https://localhost:7054/api/Authentication/login';
+    const [isValid, setIsValid] = useState(true);
+    const url = '/api/Authentication/login';
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -27,9 +28,12 @@ function Login({ }: Props) {
         event.preventDefault();
         try {
             const response = await axios.post(url, { email, password });
-            console.log("Response:", response.data);
+            console.log("Response:", response.data.statusCode);
 
-            if (response.status === 200) {
+            if (response.data.statusCode === 500 && response.status === 200) {
+                setIsValid(false)
+            } 
+            else if (response.status === 200) {
                 console.log(response)
 
                 localStorage.setItem('accessToken', response.data.token);
@@ -45,8 +49,9 @@ function Login({ }: Props) {
             } else {
                 console.error("Error Response:", response.status, response.statusText);
             }
-        } catch (error) {
 
+
+        } catch (error) {
             console.error("Network Error:", error);
         }
     }
@@ -81,6 +86,9 @@ function Login({ }: Props) {
                                 <input type="password" id="password" value={password} onChange={handlePasswordChange} />
                             </div>
                         </div>
+                        {
+                           !isValid && <div className='errorMessage'>Wrong email or password!</div>
+                        }
                         <button type="submit">Login</button>
                     </form>
                 </div>
