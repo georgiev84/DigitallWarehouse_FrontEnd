@@ -128,7 +128,6 @@ function ProductForm({ }: ProductFormProps) {
 
             if (productEdit.edit === true) {
                 const data = handleUpdate(productEdit.item.id, { ...productEdit.item, ...sendData });
-                console.log(data)
                 setProductEdit({ ...productEdit, edit: false });
                 setProducts(products.map((item) => (item.id === productEdit.item.id ? { ...item, ...data } : item)));
             } else {
@@ -142,7 +141,6 @@ function ProductForm({ }: ProductFormProps) {
             resetFormData()
             setShowPopup(false)
         }
-
     };
 
     const resetFormData = () => {
@@ -186,8 +184,6 @@ function ProductForm({ }: ProductFormProps) {
         if (formData.groups.length === 0) {
             errors.groups = 'At least one group must be selected';
         }
-
-
         return errors;
     }
 

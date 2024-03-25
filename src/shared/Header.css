@@ -11,7 +11,7 @@
   top: 0;
 }
 
-.login{
+.login {
   margin-left: auto;
   margin-right: 20px;
 }
@@ -36,4 +36,24 @@
 
 .navigation .link:hover {
   border-bottom: 2px solid wheat;
+}
+
+.logout {
+  color: wheat;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.currentUser {
+  color: #646c99;
+  font-size: 0.75rem;
+}
+
+.logoutSection {
+  margin-left: auto;
+  margin-right: 20px;
+  margin-left: auto;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
 }

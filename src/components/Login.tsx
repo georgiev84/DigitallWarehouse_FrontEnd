@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Layout from '../layouts/Layout'
 import videoBg from '../assets/video.mp4';
 import './Login.css'
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
+import NavigationContext from '../context/NavigationContext';
 
 type Props = {}
 
 function Login({ }: Props) {
+    const { setLoggedUser, setIsLoggedIn } = useContext(NavigationContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
@@ -21,48 +23,45 @@ function Login({ }: Props) {
         setPassword(event.target.value);
     };
 
-    const handleLogin = async (event : React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             const response = await axios.post(url, { email, password });
             console.log("Response:", response.data);
-        
+
             if (response.status === 200) {
                 console.log(response)
-               
+
                 localStorage.setItem('accessToken', response.data.token);
-                localStorage.setItem('refreshToken',response.data.refreshToken)
+                localStorage.setItem('refreshToken', response.data.refreshToken)
 
                 const decodedJwt = parseJwt(response.data.token);
 
-                const now = new Date();
-                const expiresInSeconds = Math.floor((decodedJwt.exp * 1000) - now.getTime()) / 1000;
-                console.log(expiresInSeconds)
+                localStorage.setItem('expireAccessToken', decodedJwt.exp.toString())
 
-                localStorage.setItem('expireRefreshToken',response.data.refreshToken)
-
-
+                setLoggedUser(decodedJwt.email)
+                setIsLoggedIn(true)
                 setNavigate(true);
             } else {
-              console.error("Error Response:", response.status, response.statusText);
+                console.error("Error Response:", response.status, response.statusText);
             }
-          } catch (error) {
+        } catch (error) {
 
             console.error("Network Error:", error);
-          }
+        }
     }
 
-    if(navigate){
+    if (navigate) {
         return <Navigate to='/products' />
     }
 
-    const parseJwt = (token:string) => {
+    const parseJwt = (token: string) => {
         try {
-          return JSON.parse(atob(token.split(".")[1]));
+            return JSON.parse(atob(token.split(".")[1]));
         } catch (e) {
-          return null;
+            return null;
         }
-      };
+    };
 
     return (
         <Layout>

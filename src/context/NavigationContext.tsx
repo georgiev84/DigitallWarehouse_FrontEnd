@@ -19,6 +19,10 @@ type NavigationContextType = {
     edit: boolean;
   }>>;
   setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
+  setLoggedUser: React.Dispatch<React.SetStateAction<string>>;
+  loggedUser: string;
+  setIsLoggedIn:  React.Dispatch<React.SetStateAction<boolean>>,
+  isLoggedIn: boolean,
 };
 const initialProductEditState: IProductEdit = {
   item: {} as IProduct,
@@ -36,7 +40,11 @@ const NavigationContext = createContext<NavigationContextType>({
   editProduct: async () => { },
   productEdit: initialProductEditState,
   setProductEdit: async () => { },
-  setProducts: async () => {}
+  setProducts: async () => {},
+  setLoggedUser: () => { },
+  loggedUser: '',
+  setIsLoggedIn: () => { },
+  isLoggedIn: false
 });
 
 export const NavigationProvider = ({ children }: any) => {
@@ -49,35 +57,50 @@ export const NavigationProvider = ({ children }: any) => {
   });
   const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
   const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken"));
-  const [expiresAt, setExpiresAt] = useState(localStorage.getItem("expireRefreshToken"))
+  const [expiresAt, setExpiresAt] = useState(localStorage.getItem("expireAccessToken"))
+  const [loggedUser, setLoggedUser] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  useEffect(() => {
-    if (accessToken && refreshToken) {
-      const now = new Date();
-      //setExpiresAt(now.getTime());
-    }
-  }, [accessToken, refreshToken]);
+  // useEffect(() => {
+  //   if (accessToken && refreshToken) {
+  //     const now = new Date();
+  //     //setExpiresAt(now.getTime());
+  //   }
+  // }, [accessToken, refreshToken]);
 
+  // const handleDeleteClick = async (id: string) => {
+  //   if (window.confirm('Are you sure you want to delete product?')) {
+  //     try {
+  //       const response = await fetch(`${url}/${id}`, {
+  //         method: 'DELETE'
+  //       });
 
-
-
+  //       if (!response.ok) {
+  //         throw new Error('Failed to delete product');
+  //       }
+  //       setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+  //     } catch (error) {
+  //       console.error('Error deleting product:', error);
+  //     }
+  //   }
+  // }
   const handleDeleteClick = async (id: string) => {
     if (window.confirm('Are you sure you want to delete product?')) {
       try {
-        const response = await fetch(`${url}/${id}`, {
-          method: 'DELETE'
-        });
-
-        if (!response.ok) {
+        // Make the DELETE request using axiosUtils
+        const response = await axiosUtils.delete(`${url}/${id}`);
+  
+        if (!response) {
           throw new Error('Failed to delete product');
         }
+  
+        // Assuming setProducts is a state updater function
         setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
       } catch (error) {
         console.error('Error deleting product:', error);
       }
     }
-  }
-
+  };
 
   const handleSubmit = async (formData: ISubmitProductFormData) => {
     try {
@@ -151,7 +174,11 @@ export const NavigationProvider = ({ children }: any) => {
       editProduct,
       productEdit,
       setProductEdit,
-      setProducts
+      setProducts,
+      setLoggedUser,
+      loggedUser,
+      setIsLoggedIn,
+      isLoggedIn
     }}>
       {children}
     </NavigationContext.Provider>

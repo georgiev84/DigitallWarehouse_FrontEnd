@@ -12,9 +12,7 @@ type Props = {}
 function ProductList({ }: Props) {
   const { fetchProducts, showPopup, editProduct, setShowPopup, handleDeleteClick, products } = useContext(NavigationContext)
   const [loading, setIsLoading] = useState(false)
-  const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +29,6 @@ function ProductList({ }: Props) {
 
     fetchData();
   }, []);
-
 
   return (
     <>
