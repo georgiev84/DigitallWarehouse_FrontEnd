@@ -9,7 +9,7 @@ import NavigationContext from '../context/NavigationContext';
 type Props = {}
 
 function Login({ }: Props) {
-    const { setLoggedUser, setIsLoggedIn } = useContext(NavigationContext);
+    const { setLoggedUser, setIsLoggedIn, setUserRole } = useContext(NavigationContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
@@ -40,16 +40,16 @@ function Login({ }: Props) {
                 localStorage.setItem('refreshToken', response.data.refreshToken)
 
                 const decodedJwt = parseJwt(response.data.token);
-
+                console.log(decodedJwt)
                 localStorage.setItem('expireAccessToken', decodedJwt.exp.toString())
 
                 setLoggedUser(decodedJwt.email)
                 setIsLoggedIn(true)
+                setUserRole(decodedJwt.Role)
                 setNavigate(true);
             } else {
                 console.error("Error Response:", response.status, response.statusText);
             }
-
 
         } catch (error) {
             console.error("Network Error:", error);

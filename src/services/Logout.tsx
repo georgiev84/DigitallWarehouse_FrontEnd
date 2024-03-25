@@ -16,7 +16,6 @@ const logout = async (accessToken: string, refreshToken: string): Promise<void> 
     localStorage.setItem('refreshToken', '');
     localStorage.setItem('expireAccessToken', '');
     console.log('Logout successful');
-
   } catch (error) {
       console.error('Logout failed:', error);
   }

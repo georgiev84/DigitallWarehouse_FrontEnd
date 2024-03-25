@@ -21,8 +21,10 @@ type NavigationContextType = {
   setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
   setLoggedUser: React.Dispatch<React.SetStateAction<string>>;
   loggedUser: string;
-  setIsLoggedIn:  React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoggedIn:  React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean,
+  setUserRole:React.Dispatch<React.SetStateAction<string>>;
+  userRole: string;
 };
 const initialProductEditState: IProductEdit = {
   item: {} as IProduct,
@@ -44,7 +46,9 @@ const NavigationContext = createContext<NavigationContextType>({
   setLoggedUser: () => { },
   loggedUser: '',
   setIsLoggedIn: () => { },
-  isLoggedIn: false
+  isLoggedIn: false,
+  setUserRole: () => { },
+  userRole: '',
 });
 
 export const NavigationProvider = ({ children }: any) => {
@@ -57,6 +61,7 @@ export const NavigationProvider = ({ children }: any) => {
   });
   const [loggedUser, setLoggedUser] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userRole, setUserRole] = useState('customer')
 
   const handleDeleteClick = async (id: string) => {
     if (window.confirm('Are you sure you want to delete product?')) {
@@ -150,7 +155,9 @@ export const NavigationProvider = ({ children }: any) => {
       setLoggedUser,
       loggedUser,
       setIsLoggedIn,
-      isLoggedIn
+      isLoggedIn,
+      setUserRole,
+      userRole
     }}>
       {children}
     </NavigationContext.Provider>

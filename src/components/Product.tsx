@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Product = ({ product }: Props) => {
-    const { handleDeleteClick, editProduct } = useContext(NavigationContext)
+    const { handleDeleteClick, editProduct, userRole } = useContext(NavigationContext)
 
     return (
         <div className="product">
@@ -30,10 +30,18 @@ const Product = ({ product }: Props) => {
                     </div>
                 ))}
             </div>
-            <div>
-                <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
-                <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
-            </div>
+            {
+                userRole === 'admin' ?
+                    <div>
+                        <FaEdit className='deleteButton' color='orange' onClick={() => editProduct(product)} />
+                        <FaTimes className='deleteButton' color='red' onClick={() => handleDeleteClick(product.id)} />
+                    </div>
+                    :
+                    <div>
+                        <FaEdit className='deleteButton' color='gray' title="You don't have permission for this action" />
+                        <FaTimes className='deleteButton' color='gray' title="You don't have permission for this action" />
+                    </div>
+            }
         </div>
     );
 };

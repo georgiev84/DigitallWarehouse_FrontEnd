@@ -77,6 +77,10 @@ video {
   background-color: rgba(0, 0, 0, .5);
 }
 
+.layoutStyle{
+  margin-top: 80px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -84,5 +88,11 @@ video {
 
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 576px) {
+  .layoutStyle{
+    margin-top: 120px;
   }
 }

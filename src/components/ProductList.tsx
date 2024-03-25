@@ -10,7 +10,7 @@ import Spinner from '../shared/Spinner';
 type Props = {}
 
 function ProductList({ }: Props) {
-  const { fetchProducts, showPopup, editProduct, setShowPopup, handleDeleteClick, products } = useContext(NavigationContext)
+  const { fetchProducts, showPopup, editProduct, setShowPopup, handleDeleteClick, products, isLoggedIn, userRole } = useContext(NavigationContext)
   const [loading, setIsLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -28,48 +28,59 @@ function ProductList({ }: Props) {
 
     fetchData();
   }, []);
-
   return (
     <>
       <Layout>
         <div className='productPage'>
-          <button type="submit" onClick={() => setShowPopup(true)}>Add Product</button>
-          <input type="text" className='search' placeholder="Search by product..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-          <div className='productForm'>
-            {showPopup && (
-              <>
-                <ProductForm />
-              </>
-            )}
-          </div>
-          <div className="productList">
-            <div className="productListHeader">
-              <div className="columnHeader">Title</div>
-              <div className="columnHeader">Description</div>
-              <div className="columnHeader">Price</div>
-              <div className="columnHeader">Brand</div>
-              <div className="columnHeader">Groups</div>
-              <div className="columnHeader">Sizes</div>
-              <div className="columnHeader"></div>
+          {isLoggedIn ? (
+            <>
+              {userRole === 'admin' && (
+                <button type="submit" onClick={() => setShowPopup(true)}>Add Product</button>
+              )}
+              <input type="text" className='search' placeholder="Search by product..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+              <div className='productForm'>
+                {showPopup && (
+                  <>
+                    <ProductForm />
+                  </>
+                )}
+              </div>
+              <div className="productList">
+                <div className="productListHeader">
+                  <div className="columnHeader">Title</div>
+                  <div className="columnHeader">Description</div>
+                  <div className="columnHeader">Price</div>
+                  <div className="columnHeader">Brand</div>
+                  <div className="columnHeader">Groups</div>
+                  <div className="columnHeader">Sizes</div>
+                  <div className="columnHeader"></div>
+                </div>
+                {loading ? (
+                  <div className='spinner'>
+                    <Spinner />
+                  </div>
+                ) : (
+                  <div>
+                    {products.length ? (
+                      products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase())).map((product: IProduct, index: React.Key | null | undefined) => (
+                        <Product key={index} product={product} />
+                      ))
+                    ) : (
+                      <p className='noProducts'>No products available</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className='noProducts'>
+              Please log in to view products.
             </div>
-
-            {loading ? (
-              <div className='spinner'>
-                <Spinner />
-              </div>
-            ) : (
-              <div>
-                {products.length && products.filter(product => product.title.toLowerCase().includes(searchQuery.toLowerCase())).map((product: IProduct, index: React.Key | null | undefined) => (
-                  <Product key={index} product={product} />
-                ))}
-              </div>
-            )}
-
-          </div>
+          )}
         </div>
       </Layout>
     </>
-  )
+  );
 }
 
 export default ProductList

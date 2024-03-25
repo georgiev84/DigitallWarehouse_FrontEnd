@@ -10,7 +10,7 @@ function Layout({ children }: Props) {
   return (
     <>
       <Header />
-      <div style={{ marginTop: '80px'}}>{children}</div>
+      <div className='layoutStyle'>{children}</div>
       <Footer />
     </>
   )
