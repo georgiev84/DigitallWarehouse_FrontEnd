@@ -10,42 +10,38 @@ import { NavigationProvider } from './context/NavigationContext';
 import NotFound from './shared/NotFound';
 import Login from './components/Login';
 import axios from 'axios';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const router = createBrowserRouter([
   {
-    path:'/',
+    path: '/',
     element: <App />
-  }, 
+  },
   {
-    path:'/products',
+    path: '/products',
     element: <ProductList />
   },
   {
-    path:'/about',
+    path: '/about',
     element: <About />
   },
   {
-    path:'/login',
+    path: '/login',
     element: <Login />
   },
   {
-    path:'/*',
+    path: '/*',
     element: <NotFound />
   }
 ])
-
-// axios.interceptors.request.use((request)=>{
-//   console.log("global interceptor - "+request);
-//   request.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
-//   return request;
-// })
-
-// axios.defaults.headers.common = {
-//   'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-// };
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-root.render(<NavigationProvider><RouterProvider router={router} /></NavigationProvider>);
+root.render(
+  <GoogleOAuthProvider clientId='1009282809407-sh8h2kgmot2q295a503sl5530pldnaj9.apps.googleusercontent.com'>
+    <NavigationProvider>
+      <RouterProvider router={router} />
+    </NavigationProvider>
+  </GoogleOAuthProvider>);

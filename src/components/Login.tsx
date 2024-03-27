@@ -5,6 +5,8 @@ import './Login.css'
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 import NavigationContext from '../context/NavigationContext';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import LoginGoogle from './LoginGoogle';
 
 type Props = {}
 
@@ -91,6 +93,7 @@ function Login({ }: Props) {
                         }
                         <button type="submit">Login</button>
                     </form>
+                    <LoginGoogle />
                 </div>
             </div>
         </Layout>

@@ -1,6 +1,4 @@
-.loginInput {
-
-}
+.loginInput {}
 
 .loginForm {
     display: flex;
@@ -15,8 +13,22 @@
     flex-direction: column;
 }
 
-button { 
+button {
     margin-left: 0px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.googleButton {
+    height: 40px;
+    padding: 0 15px;
+    background: white;
+    border-radius: 10px;
+}
+
+.googleButton img {
+    height: 30px;
+    vertical-align: middle;
 }
 
 .errorMessage {
