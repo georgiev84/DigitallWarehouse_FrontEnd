@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom';
 import NavigationContext from '../context/NavigationContext';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import LoginGoogle from './LoginGoogle';
+import axiosUtils from '../interceptors/axiosUtils';
 
 type Props = {}
 
@@ -29,7 +30,7 @@ function Login({ }: Props) {
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            const response = await axios.post(url, { email, password });
+            const response = await axiosUtils.post(url, { email, password });
             console.log("Response:", response.data.statusCode);
 
             if (response.data.statusCode === 500 && response.status === 200) {

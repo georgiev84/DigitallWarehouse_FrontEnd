@@ -1,9 +1,10 @@
 import axios from 'axios';
+import logout from '../services/Logout';
 
 const instance = axios.create({
-    baseURL: 'https://localhost:7054', 
+    baseURL: process.env.BASE_URL,
 });
-const refreshUrl = 'https://localhost:7054/api/Authentication/refresh';
+const refreshUrl = '/api/Authentication/refresh';
 instance.interceptors.request.use(config => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');

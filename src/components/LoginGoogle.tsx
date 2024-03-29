@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout';
 import NavigationContext from '../context/NavigationContext';
 import { Navigate } from 'react-router-dom';
 import googleLogo from '../assets/google-icon-logo.svg';
+import axiosUtils from '../interceptors/axiosUtils';
 
 
 type Props = {}
@@ -57,7 +58,7 @@ function LoginGoogle({ }: Props) {
     const passTokenToEndpoint = (user: UserToken, profile: UserProfile) => {
         profile.token = user.access_token;
         if (user) {
-            axios.post('https://localhost:7054/api/Authentication/google-authenticate',
+            axiosUtils.post('/api/Authentication/google-authenticate',
                 profile
             )
                 .then((response) => {

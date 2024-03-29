@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosUtils from '../interceptors/axiosUtils';
 
 interface LogoutResponse {
     token: string;
@@ -7,7 +7,7 @@ interface LogoutResponse {
 
 const logout = async (accessToken: string, refreshToken: string): Promise<void> => {
   try {
-    const response = await axios.post<LogoutResponse>(`/api/authentication/logout`, {
+    const response = await axiosUtils.post<LogoutResponse>(`/api/authentication/logout`, {
       token: accessToken,
       refreshToken: refreshToken
     });
