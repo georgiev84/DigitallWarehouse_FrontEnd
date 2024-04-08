@@ -2,15 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProductList from './components/ProductList';
 import About from './pages/About';
 import { NavigationProvider } from './context/NavigationContext';
 import NotFound from './shared/NotFound';
 import Login from './components/Login';
-import axios from 'axios';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 const router = createBrowserRouter([
   {

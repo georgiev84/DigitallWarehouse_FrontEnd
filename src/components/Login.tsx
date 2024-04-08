@@ -17,7 +17,7 @@ function Login({ }: Props) {
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
     const [isValid, setIsValid] = useState(true);
-    const url = '/api/Authentication/login';
+    const url = `${process.env.REACT_APP_API_URL}/api/Authentication/login`;
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -29,8 +29,10 @@ function Login({ }: Props) {
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log('dev env - ' + process.env.BASE_URL)
+        console.log('Environment Variables:', process.env);
         try {
-            const response = await axiosUtils.post(url, { email, password });
+            const response = await axios.post(url, { email, password });
             console.log("Response:", response.data.statusCode);
 
             if (response.data.statusCode === 500 && response.status === 200) {

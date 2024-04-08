@@ -6,6 +6,7 @@ import videoBg from './assets/video.mp4';
 import Footer from './shared/Footer';
 
 function App() {
+  console.log('Environment Variables:', process.env);
   return (
     <>
       <Layout>
