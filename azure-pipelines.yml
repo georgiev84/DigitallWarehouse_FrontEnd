@@ -7,7 +7,7 @@ trigger:
 - develop
 
 variables:
-  uiSource: '/src'
+  uiSource: '/'
   uiBuild: '/build'
 
 pool:
