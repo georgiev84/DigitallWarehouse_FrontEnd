@@ -39,7 +39,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <GoogleOAuthProvider clientId='1009282809407-sh8h2kgmot2q295a503sl5530pldnaj9.apps.googleusercontent.com'>
+  <GoogleOAuthProvider clientId='50840905083-r9f54aru9bsjeiucvv1jbknh2bhvndkg.apps.googleusercontent.com'>
     <NavigationProvider>
       <RouterProvider router={router} />
     </NavigationProvider>
